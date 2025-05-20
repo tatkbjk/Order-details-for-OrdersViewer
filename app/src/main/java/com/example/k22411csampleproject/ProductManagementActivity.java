@@ -2,9 +2,10 @@ package com.example.k22411csampleproject;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,13 +13,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.connectors.ProductConnector;
+import com.thaianhthu.models.Category;
+import com.thaianhthu.models.ListCategory;
 import com.thaianhthu.models.Product;
 
 public class ProductManagementActivity extends AppCompatActivity {
+    Spinner spinnerCategory;
+    ListCategory listCategory;
+    ArrayAdapter<Category> adapterCategory;
     ListView lvProduct;
-    ArrayAdapter<Product> adapter;
-    ProductConnector connector;
+    ArrayAdapter<Product> adapterProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,22 +38,40 @@ public class ProductManagementActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-        lvProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long l) {
-                Product selected = adapter.getItem(i);
-                adapter.remove(selected);
-                return false;
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Category c = adapterCategory.getItem(i);
+                displayProductsByCategory (c);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
 
-    private void addViews() {
-        lvProduct = findViewById(R.id.lvProduct);
-        adapter = new ArrayAdapter<>(ProductManagementActivity.this, android.R.layout.simple_list_item_1);
-        connector = new ProductConnector();
-        adapter.addAll(connector.getAllProducts());
-        lvProduct.setAdapter(adapter);
+    private void displayProductsByCategory(Category c) {
+        adapterProduct.clear();
+        adapterProduct.addAll(c.getProducts());
     }
+
+
+    private void addViews() {
+        spinnerCategory=findViewById(R.id.spinnerCategory);
+        adapterCategory=new ArrayAdapter<>(ProductManagementActivity.this, android.R.layout.simple_spinner_item);
+        adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(adapterCategory);
+
+        listCategory=new ListCategory();
+        listCategory.generate_sample_product_dataset();
+        adapterCategory.addAll(listCategory.getCategories());
+
+        lvProduct=findViewById(R.id.lvProduct);
+        adapterProduct=new ArrayAdapter<>(ProductManagementActivity.this, android.R.layout.simple_list_item_1);
+        lvProduct.setAdapter(adapterProduct);
+    }
+
 
 }

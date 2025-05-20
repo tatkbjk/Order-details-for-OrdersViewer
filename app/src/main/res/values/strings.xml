@@ -24,4 +24,5 @@
     <string name="title_fat">Fat</string>
     <string name="title_category">Category</string>
     <string name="title_product">Product</string>
+    <string name="title_advanced_product">Advanced Product</string>
 </resources>

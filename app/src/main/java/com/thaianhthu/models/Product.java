@@ -9,20 +9,21 @@ public class Product implements Serializable {
     private String name;
     private int quantity;
     private double price;
-    private int cate_id;
-    private String description;
 
-    public Product() {
-    }
+    //thuoc tinh nao khong biet truoc duoc thuoc danh muc sp nao
+    // thi khi khoi tao phai
+    // tao 3 constructors: khong doi so, day du doi so va loai bo cate_id
 
-    public Product(int id, String name, int quantity, double price, int cate_id, String description) {
+    private int image_id;
+
+    public Product(int id, String name, int quantity, double price, int image_id) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
-        this.cate_id = cate_id;
-        this.description = description;
+        this.image_id = image_id;
     }
+
 
     public int getId() {
         return id;
@@ -56,27 +57,24 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public int getCate_id() {
-        return cate_id;
+
+    public int getImage_id() {
+        return image_id;
     }
 
-    public void setCate_id(int cate_id) {
-        this.cate_id = cate_id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImage_id(int image_id) {
+        this.image_id = image_id;
     }
 
     @NonNull
     @Override
     public String toString() {
-        String info= id + "-" + name + "\n" + quantity + "\n" + price + "\n" + cate_id + "\n" + description;
-        return info;
+        return id+"\t"+name+"\t"+price;
+    }
+
+
+    public Product() {
     }
 }
+
 

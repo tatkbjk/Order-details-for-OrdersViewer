@@ -4,17 +4,11 @@ import androidx.annotation.NonNull;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Category implements Serializable {
+public class Category {
     private int id;
     private String name;
-
-    public Category() {
-    }
-    public Category(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public int getId() {
         return id;
@@ -32,10 +26,45 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    @NonNull
+    public int getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(int image_id) {
+        this.image_id = image_id;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
+    }
+
+    private int image_id;
+    private ArrayList<Product> products;
+
+    public Category() {
+        products = new ArrayList<>();
+    }
+
+    public Category(int id, String name, int image_id) {
+        this.id = id;
+        this.name = name;
+        this.image_id = image_id;
+        products = new ArrayList<>();
+
+    }
+
     @Override
     public String toString() {
-        String info=id+"-"+name;
-        return info;
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+    public void addProduct(Product p) {
+        products.add(p);
     }
 }

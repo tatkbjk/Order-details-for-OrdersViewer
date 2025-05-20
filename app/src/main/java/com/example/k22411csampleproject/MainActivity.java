@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         txtCustomer = findViewById(R.id.txtCustomer);
         imgProduct = findViewById(R.id.imgProduct);
         txtProduct = findViewById(R.id.txtProduct);
-        imgCategory = findViewById(R.id.imgCategory);
-        txtCategory = findViewById(R.id.txtCategory);
     }
 
 
@@ -90,25 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        imgCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCategoryManagementActivity();
-            }
-        });
-        txtCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCategoryManagementActivity();
-            }
-        });
 
     }
 
-    private void openCategoryManagementActivity() {
-        Intent intent = new Intent(MainActivity.this, CategoryManagementActivity.class);
-        startActivity(intent);
-    }
 
     private void openProductManagementActivity() {
         Intent intent = new Intent(MainActivity.this, ProductManagementActivity.class);
