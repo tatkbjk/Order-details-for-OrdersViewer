@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
     TextView txtEmployee;
     ImageView imgCustomer;
     TextView txtCustomer;
-    ImageView imgCategory;
-    TextView txtCategory;
     ImageView imgProduct;
     TextView txtProduct;
+    ImageView imgAdvancedProduct;
+    TextView txtAdvancedProduct;
 
 
     @Override
@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         txtCustomer = findViewById(R.id.txtCustomer);
         imgProduct = findViewById(R.id.imgProduct);
         txtProduct = findViewById(R.id.txtProduct);
+        imgAdvancedProduct = findViewById(R.id.imgAdvancedProduct);
+        txtAdvancedProduct = findViewById(R.id.txtAdvancedProduct);
     }
 
 
@@ -88,7 +90,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        imgAdvancedProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAdvancedProductManagementActivity();
+            }
+        });
+        txtAdvancedProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAdvancedProductManagementActivity();
+            }
+        });
 
+    }
+
+    private void openAdvancedProductManagementActivity() {
+        Intent intent = new Intent(MainActivity.this, AdvancedProductManagementActivity.class);
+        startActivity(intent);
     }
 
 

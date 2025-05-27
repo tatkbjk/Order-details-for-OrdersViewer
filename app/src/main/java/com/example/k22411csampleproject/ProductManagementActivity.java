@@ -1,13 +1,18 @@
 package com.example.k22411csampleproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -50,7 +55,21 @@ public class ProductManagementActivity extends AppCompatActivity {
 
             }
         });
+        lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+                Product p = adapterProduct.getItem(i);
+                displayProductDetailActivity(p);
+            }
+        });
     }
+
+    private void displayProductDetailActivity(Product p) {
+        Intent intent = new Intent(this, ProductDetailActivity.class);
+        intent.putExtra("SELECTED_PRODUCT", p);
+        startActivity(intent);
+    }
+
 
     private void displayProductsByCategory(Category c) {
         adapterProduct.clear();
@@ -71,6 +90,31 @@ public class ProductManagementActivity extends AppCompatActivity {
         lvProduct=findViewById(R.id.lvProduct);
         adapterProduct=new ArrayAdapter<>(ProductManagementActivity.this, android.R.layout.simple_list_item_1);
         lvProduct.setAdapter(adapterProduct);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu_product, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_new_product) {
+            Intent intent = new Intent(this, ProductDetailActivity.class);
+            startActivity(intent);
+            return true;
+
+        } else if (item.getItemId() == R.id.menu_import_data) {
+            Toast.makeText(this, "Sample data imported.", Toast.LENGTH_SHORT).show();
+            return true;
+
+        } else if (item.getItemId() == R.id.menu_product_help) {
+            Toast.makeText(this, "Visit our website for help!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

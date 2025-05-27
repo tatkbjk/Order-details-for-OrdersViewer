@@ -19,30 +19,39 @@ public class ListEmployee {
     public void gen_dataset(){
         Employee e1=new Employee();
         e1.setId(1);
-        e1.setName("john");
-        e1.setEmail("john.mclean@examplepetstore.com");
+        e1.setName("Thanh Duy");
+        e1.setEmail("delilah@thealbum.com");
         e1.setPhone("0123456789");
-        e1.setUsername("john123");
-        e1.setPassword("123456");
+        e1.setUsername("delilah");
+        e1.setPassword("1331");
         employees.add(e1);
 
         Employee e2=new Employee();
         e2.setId(2);
-        e2.setName("jane");
-        e2.setEmail("jane@example.com");
+        e2.setName("Duy Khánh Zhou Zhou");
+        e2.setEmail("nhdk@example.com");
         e2.setPhone("0123456789");
-        e2.setUsername("jane123");
-        e2.setPassword("123456");
+        e2.setUsername("dkzz");
+        e2.setPassword("1331");
         employees.add(e2);
 
         Employee e3=new Employee();
         e3.setId(3);
-        e3.setName("jack");
-        e3.setEmail("jack@fireflies.com");
+        e3.setName("Bùi Công Nam");
+        e3.setEmail("bcn@example.com");
         e3.setPhone("0123456789");
-        e3.setUsername("j97");
-        e3.setPassword("123456");
+        e3.setUsername("bcn");
+        e3.setPassword("1331");
         employees.add(e3);
+
+        Employee e4=new Employee();
+        e4.setId(4);
+        e4.setName("Thiên Minh");
+        e4.setEmail("thichtichcuc@vtm.com");
+        e4.setPhone("0123456789");
+        e4.setUsername("vbt");
+        e4.setPassword("1331");
+
     }
 }
 

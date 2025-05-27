@@ -9,6 +9,7 @@ public class Product implements Serializable {
     private String name;
     private int quantity;
     private double price;
+    private String imageId;
 
     //thuoc tinh nao khong biet truoc duoc thuoc danh muc sp nao
     // thi khi khoi tao phai
