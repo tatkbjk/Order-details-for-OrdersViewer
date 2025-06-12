@@ -21,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     TextView txtProduct;
     ImageView imgAdvancedProduct;
     TextView txtAdvancedProduct;
+    ImageView imgPaymentMethod;
+    TextView txtPaymentMethod;
+    ImageView imgOrders;
+    TextView txtOrders;
+    ImageView imgTelephony;
+    TextView txtTelephony;
+
 
 
     @Override
@@ -46,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         txtProduct = findViewById(R.id.txtProduct);
         imgAdvancedProduct = findViewById(R.id.imgAdvancedProduct);
         txtAdvancedProduct = findViewById(R.id.txtAdvancedProduct);
+        imgPaymentMethod = findViewById(R.id.imgPaymentMethod);
+        txtPaymentMethod = findViewById(R.id.txtPaymentMethod);
+        imgOrders = findViewById(R.id.imgOrders);
+        txtOrders = findViewById(R.id.txtOrders);
+        imgTelephony = findViewById(R.id.imgTelephony);
+        txtTelephony = findViewById(R.id.txtTelephony);
     }
 
 
@@ -102,7 +115,54 @@ public class MainActivity extends AppCompatActivity {
                 openAdvancedProductManagementActivity();
             }
         });
+        imgPaymentMethod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPaymentMethodActivity();
+            }
+        });
+        txtPaymentMethod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPaymentMethodActivity();
+            }
+        });
+        imgOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { openOrdersViewerActivity();}
+        });
+        txtOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { openOrdersViewerActivity();}
+        });
+        imgTelephony.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTelephonyActivity();
+            }
+        });
+        txtTelephony.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTelephonyActivity();
+            }
+        });
 
+    }
+
+    private void openTelephonyActivity() {
+        Intent intent = new Intent(MainActivity.this, TelephonyActivity.class);
+        startActivity(intent);
+    }
+
+    private void openOrdersViewerActivity() {
+        Intent intent = new Intent(MainActivity.this, OrdersViewerActivity.class);
+        startActivity(intent);
+    }
+
+    private void openPaymentMethodActivity() {
+        Intent intent = new Intent(MainActivity.this, PaymentMethodActivity.class);
+        startActivity(intent);
     }
 
     private void openAdvancedProductManagementActivity() {

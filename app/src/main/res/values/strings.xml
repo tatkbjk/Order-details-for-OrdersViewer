@@ -45,4 +45,13 @@
     <string name="title_new_product">New Product</string>
     <string name="title_import_data">Import Data</string>
     <string name="title_product_help">Help</string>
+    <string name="title_payment_method">Payment Method</string>
+    <string name="title_orders">Orders</string>
+    <string name="title_telephony">Telephony</string>
+    <string name="product_name">Sản phẩm: %1$s</string>
+    <string name="quantity">Số lượng: %1$d</string>
+    <string name="price">Đơn giá: %1$.2f</string>
+    <string name="discount">Chiết khấu: %1$.2f%%</string>
+    <string name="vat">VAT: %1$.2f%%</string>
+    <string name="total_price">Thành tiền: %1$.2f</string>
 </resources>

@@ -3,7 +3,9 @@ package com.example.k22411csampleproject;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -19,7 +21,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.connectors.EmployeeConnector;
+import com.connectors.SQLiteConnector;
 import com.thaianhthu.models.Employee;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +37,11 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox chkSaveLoginInfor;
     private boolean doubleBackToExitPressedOnce = false;
     private static final long DOUBLE_BACK_PRESS_THRESHOLD = 1200;
+
+    //Cop 3 dòng này ở 25,26,27 file MainActivity.java (thầy đưa)
+    String DATABASE_NAME="SalesDatabase.sqlite";
+    private static final String DB_PATH_SUFFIX = "/databases/";
+    SQLiteDatabase database=null;
 //    Button btnLogin;
 //    ImageView imgExit;
 
@@ -42,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //Cop ở dòng 34 file MainActivity.java (thầy đưa)
+        processCopy();
     }
 
     private void addViews() {
@@ -58,7 +74,12 @@ public class LoginActivity extends AppCompatActivity {
 //        boolean saveinfor = chkSaveLoginInfor.isChecked();
 
         EmployeeConnector ec=new EmployeeConnector();
-        Employee emp=ec.login(username,password);
+
+        SQLiteConnector sqLiteConnector = new SQLiteConnector(this);
+        sqLiteConnector.openDatabase();
+//        Employee emp = ec.login(sqLiteConnector.getDatabase(), username, password);
+        Employee emp = ec.login(new SQLiteConnector(this).openDatabase(), username, password);
+
         if (emp!=null)
         {
             Intent intent = new Intent(this, MainActivity.class);
@@ -122,5 +143,103 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void saveLoginInformation()
+    {
+        //Luu thong tin dang nhap vao SharedPreferences
+        SharedPreferences preferences=getSharedPreferences("LOGIN_INFORMATION", MODE_PRIVATE);
+        SharedPreferences.Editor editor =preferences.edit();
+        String usr=edtUsername.getText().toString();
+        String pwd=edtPassword.getText().toString();
+        boolean isSave=chkSaveLoginInfor.isChecked();
+        editor.putString("USERNAME",usr);
+        editor.putString("PASSWORD",pwd);
+        editor.putBoolean("SAVED",isSave);
+        editor.commit();
+    }
+
+    //Chỉ cần gõ onPause() là được, lưu xuống onPause để tránh mất dữ liệu khi thoát ứng dụng
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveLoginInformation();
+    }
+
+    public void restoreLoginInformation()
+    {
+        SharedPreferences preferences=getSharedPreferences("LOGIN_INFORMATION", MODE_PRIVATE);
+        //Lấy thông tin đã lưu, nếu không tìm thấy thì trả về chuỗi rỗng
+        String usr=preferences.getString("USERNAME","");
+        String pwd=preferences.getString("PASSWORD","");
+        boolean isSave=preferences.getBoolean("SAVED",true);
+        if(isSave)
+        {
+            edtUsername.setText(usr);
+            edtPassword.setText(pwd);
+            chkSaveLoginInfor.setChecked(true);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restoreLoginInformation();
+    }
+    //Cop 3 hàm này từ dòng 37 file MainActivity.java (thầy đưa)
+    private void processCopy() {
+        //private app
+        File dbFile = getDatabasePath(DATABASE_NAME);
+
+        if (!dbFile.exists())
+        {
+            try
+            {
+                CopyDataBaseFromAsset();
+                Toast.makeText(this, "Copying sucess from Assets folder", Toast.LENGTH_LONG).show();
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    private String getDatabasePath() {
+        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
+    }
+    public void CopyDataBaseFromAsset()
+    {
+        try {
+            InputStream myInput;
+
+            myInput = getAssets().open(DATABASE_NAME);
+
+
+            // Path to the just created empty db
+            String outFileName = getDatabasePath();
+
+            // if the path doesn't exist first, create it
+            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
+            if (!f.exists())
+                f.mkdir();
+
+            // Open the empty db as the output stream
+            OutputStream myOutput = new FileOutputStream(outFileName);
+
+            // transfer bytes from the inputfile to the outputfile
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = myInput.read(buffer)) > 0) {
+                myOutput.write(buffer, 0, length);
+            }
+
+            // Close the streams
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

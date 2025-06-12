@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:elevation="2dp">
+
+    <TextView
+        android:id="@+id/txtOrderCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Code"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:textSize="18sp"
+        android:paddingBottom="2dp" />
+
+    <TextView
+        android:id="@+id/txtOrderDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Date"
+        android:textColor="#388E3C"
+        android:textSize="15sp"
+        android:paddingBottom="2dp" />
+
+    <TextView
+        android:id="@+id/txtEmployeeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Employee"
+        android:textColor="#F57C00"
+        android:textSize="15sp"
+        android:paddingBottom="2dp" />
+
+    <TextView
+        android:id="@+id/txtCustomerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Customer"
+        android:textColor="#7B1FA2"
+        android:textSize="15sp"
+        android:paddingBottom="2dp" />
+
+    <TextView
+        android:id="@+id/txtTotalOrderValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total"
+        android:textColor="#D32F2F"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingBottom="4dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FFB74D"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp"/>
+</LinearLayout>

@@ -1,7 +1,9 @@
 package com.example.k22411csampleproject;
 
 import android.app.ComponentCaller;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +23,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.connectors.CustomerConnector;
+import com.connectors.SQLiteConnector;
 import com.thaianhthu.models.Customer;
+import com.thaianhthu.models.ListCustomer;
 
 public class CustomerManagementActivity extends AppCompatActivity {
     ListView lvCustomer;
@@ -64,14 +68,21 @@ public class CustomerManagementActivity extends AppCompatActivity {
     private void displayCustomerDetailActivity(Customer c) {
         Intent intent=new Intent(CustomerManagementActivity.this,CustomerDetailActivity.class);
         intent.putExtra("SELECTED_CUSTOMER",c);
-        startActivity(intent);
+//        startActivity(intent);
+        startActivityForResult(intent,400);
     }
 
     private void addViews() {
         lvCustomer=findViewById(R.id.lvCustomer);
         adapter=new ArrayAdapter<>(CustomerManagementActivity.this, android.R.layout.simple_list_item_1);
+        //Giả lập dữ liệu
+//        connector=new CustomerConnector();
+//        adapter.addAll(connector.get_all_customeṛ̣());
+//        lvCustomer.setAdapter(adapter);
+        //Tải dữ liệu từ cơ sở dữ liệu SQLite
         connector=new CustomerConnector();
-        adapter.addAll(connector.get_all_customeṛ̣());
+        ListCustomer lc=connector.getAllCustomers(new SQLiteConnector(this).openDatabase());
+        adapter.addAll(lc.getCustomers());
         lvCustomer.setAdapter(adapter);
     }
 
@@ -113,23 +124,52 @@ public class CustomerManagementActivity extends AppCompatActivity {
             Customer c= (Customer) data.getSerializableExtra("NEW_CUSTOMER");
             process_save_customer(c);
         }
+        else if(requestCode==400 && resultCode==500){
+            //Cập nhật thông tin khách hàng
+            Customer c = (Customer) data.getSerializableExtra("NEW_CUSTOMER");
+            process_update_customer(c);
+        }
+        else if(requestCode==400 && resultCode==600) {
+            //Xóa khách hàng
+            String id = data.getStringExtra("CUSTOMER_ID_REMOVE");
+            process_remove_customer(id);
+        }
     }
 
-    private void process_save_customer(Customer c) {
-        boolean result=connector.isExist(c);
-        if(result==true)
-        {
-            //tức là customer đã tồn tại trong hệ thống
-            //họ có nhu cầu chỉnh sửa thông tin như địa chỉ,..
-            //Sinh viên tự xử lí trường hợp sửa thông tin
-        }
-        else
-        {
-            //Thêm mới customer chưa tồn tại
-            connector.addCustomer(c);
+    private void process_remove_customer(String id) {
+        SQLiteConnector con = new SQLiteConnector(this);
+        SQLiteDatabase database = con.openDatabase();
+        CustomerConnector cc = new CustomerConnector();
+        long flag = cc.removeCustomer(id, database);
+        if(flag > 0) {
             adapter.clear();
-            adapter.addAll(connector.get_all_customeṛ̣());
+            adapter.addAll(cc.getAllCustomers(database).getCustomers());
+        }
+    }
+
+    private void process_update_customer(Customer c) {
+        SQLiteConnector con = new SQLiteConnector(this);
+        SQLiteDatabase database = con.openDatabase();
+        CustomerConnector cc = new CustomerConnector();
+        long flag = cc.saveUpdateCustomer(c, database);
+        Toast.makeText(this, "FLAG="+flag,Toast.LENGTH_LONG).show();
+        if(flag > 0) {
+            adapter.clear();
+            adapter.addAll(cc.getAllCustomers(database).getCustomers());
         }
 
     }
+
+    private void process_save_customer(Customer c)
+    {
+        SQLiteConnector con = new SQLiteConnector(this);
+        SQLiteDatabase database = con.openDatabase();
+        CustomerConnector cc = new CustomerConnector();
+        long flag = cc.saveNewCustomer(c, database);
+        if(flag > 0) {
+            adapter.clear();
+            adapter.addAll(cc.getAllCustomers(database).getCustomers());
+        }
+    }
+    
 }

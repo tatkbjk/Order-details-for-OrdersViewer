@@ -31,7 +31,7 @@ public class ListEmployee {
         e2.setName("Duy Khánh Zhou Zhou");
         e2.setEmail("nhdk@example.com");
         e2.setPhone("0123456789");
-        e2.setUsername("dkzz");
+        e2.setUsername("dkzhou");
         e2.setPassword("1331");
         employees.add(e2);
 

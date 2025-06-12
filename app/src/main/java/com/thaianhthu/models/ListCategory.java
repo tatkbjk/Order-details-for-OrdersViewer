@@ -70,7 +70,7 @@ public class ListCategory {
         categories.add(c6);
 
         Category c7 = new Category(116, "Fruit", 1);
-        Product p31 = new Product(31, "Apple", 100, 5.0, 150);
+        Product p31 = new Product(31, "Apple", 100, 85, 150);
         Product p32 = new Product(32, "Banana", 120, 3.0, 140);
         Product p33 = new Product(33, "Mango", 80, 7.0, 160);
         Product p34 = new Product(34, "Orange", 90, 6.0, 155);
